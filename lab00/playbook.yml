@@ -21,6 +21,7 @@
     ansible.builtin.apt_repository:
       repo: ppa:ansible/ansible
       state: present
+      codename: noble # <- ADD THIS LINE
       update_cache: true
 
   - name: Install ansible
@@ -56,10 +57,8 @@
       cmd: cat /var/lib/jenkins/secrets/initialAdminPassword
     register: jenkins_pass
   
-- hosts: localhost
-  connection: local
-  tasks:
-  - name: Generate outputs
+  - name: Generate Outputs
     ansible.builtin.template:
       src: ~/cicd-labs/lab00/outputs_template
       dest: ~/cicd-labs/lab00/outputs
+    delegate_to: 127.0.0.1
