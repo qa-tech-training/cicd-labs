@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         TF_VAR_gcp_project = "qwiklabs-gcp-XX-XXXXXXXXXXXX"
-        TF_VAR_bucket = "terraform-state-XXXXXX-XXXX-XXXXX"
     }
     stages {
         stage('Terraform Init') {
