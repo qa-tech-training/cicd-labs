@@ -43,8 +43,7 @@ You should now see the AWX dashboard.
     * name: nginx-updates 
     * Organizations as `BOAAWX` 
     * SCM Type as "Git" 
-    * repository as the URL for your repo from lab02
-    * Playbook Directory as `ansible` 
+    * repository as the URL for your repo from lab02 
 
 ### Add SSH Credentials
 To be able to connect to our machines, AWX will need access to the private SSH key that corresponds to the public key used to build the infrastructure.
@@ -76,7 +75,7 @@ We will keep things simple with a static inventory for now, but this could be dy
     * JOB TYPE: Run 
     * INVENTORY: webservers
     * PROJECT: nginx-updates
-    * PLAYBOOK: playbook.yml
+    * PLAYBOOK: ansible/playbook.yml
     * CREDENTIALS: ansible_ssh_key
 3. Save the template configuration, then run the job manually to test connectivity
 
