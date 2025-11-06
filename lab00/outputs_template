@@ -1,0 +1,2 @@
+Jenkins initial admin password: {{ jenkins_pass.stdout_lines[0] }}
+Jenkins URL: http://{{ hostvars[groups['gcp_role_jenkins_server'][0]]['ansible_facts']['default_ipv4']['address'] }}:8080

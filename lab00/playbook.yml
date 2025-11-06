@@ -1,0 +1,65 @@
+---
+- name: Install and start Jenkins
+  hosts: gcp_role_jenkins_server
+  become: true
+  tasks:
+  - name: Install key deps
+    ansible.builtin.apt:
+      pkg:
+      - default-jdk
+      - unzip
+      - software-properties-common
+      state: present
+
+  - name: Install terraform
+    ansible.builtin.unarchive:
+      remote_src: true
+      src: https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip
+      dest: /usr/local/bin
+  
+  - name: Add ansible repo
+    ansible.builtin.apt_repository:
+      repo: ppa:ansible/ansible
+      state: present
+      update_cache: true
+
+  - name: Install ansible
+    ansible.builtin.apt:
+      name: ansible
+      state: present
+      update_cache: true
+
+  - name: Add Jenkins repository key
+    ansible.builtin.apt_key:
+      url: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+      state: present
+
+  - name: Add Jenkins repository
+    ansible.builtin.apt_repository:
+      repo: deb https://pkg.jenkins.io/debian-stable binary/
+      state: present
+
+  - name: Install Jenkins
+    ansible.builtin.apt:
+      name: jenkins
+      state: present
+      update_cache: true
+
+  - name: Start and enable Jenkins
+    ansible.builtin.service:
+      name: jenkins
+      state: started
+      enabled: true
+  
+  - name: Retrieve admin password
+    ansible.builtin.shell:
+      cmd: cat /var/lib/jenkins/secrets/initialAdminPassword
+    register: jenkins_pass
+  
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Generate outputs
+    ansible.builtin.template:
+      src: ~/cicd-labs/lab00/outputs_template
+      dest: ~/cicd-labs/lab00/outputs

@@ -1,0 +1,64 @@
+variable "gcp_project" {}
+
+terraform {
+  required_providers {
+    google = {
+        source = "hashicorp/google"
+        version = "7.7.0"
+    }
+  }
+  backend "gcs" {
+    bucket = "{{ bucket }}"
+    prefix = "terraform/state/lab04"
+  }
+}
+
+provider "google" {
+    project = var.gcp_project
+    region  = "europe-west1"
+}
+
+resource "google_compute_instance" "vault" {
+  name         = "vault"
+  machine_type = "e2-medium"
+  zone         = "europe-west1-b"
+
+  allow_stopping_for_update = true
+  
+  labels = {
+    role = "vault_server"
+  }
+  
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-12"
+      size = 32
+    }
+  }
+  
+  metadata_startup_script = file("deploy-vault.sh")
+  
+  network_interface {
+    network = "default"
+
+    access_config {
+      network_tier = "STANDARD"
+    }
+  }
+}
+
+resource "google_compute_firewall" "vault-firewall" {
+  name    = "vault-firewall"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "8200"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+output "vault_ip" {
+  value = google_compute_instance.vault.network_interface[0].access_config[0].nat_ip
+}
