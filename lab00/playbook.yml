@@ -9,6 +9,8 @@
       - default-jdk
       - unzip
       - software-properties-common
+      - git
+      - python3-google-auth
       state: present
 
   - name: Install terraform

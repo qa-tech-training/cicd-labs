@@ -20,6 +20,7 @@ Open the explorer pane in the editor and ensure you can see the newly cloned fil
 These labs will require SSH access to VMs using self-managed SSH keys. By default, the compute engine in the qwiklabs projects has _oslogin_ enabled, which allows GCP to manage SSH access to VMs via IAM credentials. This will, however, block SSH using self-managed SSH keys, so we will need to disable it.  
 In your cloud shell terminal, run the following:
 ```bash
+gcloud config set project <qwiklabs project ID> # ensure project is set, in case cloud shell has not done so
 gcloud compute project-info add-metadata --metadata=enable-oslogin=false
 ```
 

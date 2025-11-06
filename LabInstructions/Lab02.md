@@ -54,7 +54,7 @@ ssh-keygen -t ed25519 -f ./jenkinskey -q
 4. In the Pipeline section of the configuration, and change 'pipeline script' to 'pipeline script from SCM'. Configure the following settings:
     * SCM: git
     * repository: your repo URL
-    * branch specifier: **/main
+    * branch specifier: */main
     * script path: Jenkinsfile
 5. Save the configuration
 
