@@ -12,7 +12,7 @@ Once logged into the cloud console, click the cloud shell icon in the top right.
 
 In a new terminal session in the IDE window, clone the lab files:
 ```bash
-git clone --recurse-submodules https://github.com/qa-tech-training/cicd-labs.git
+git clone https://github.com/qa-tech-training/cicd-labs.git
 ```
 Open the explorer pane in the editor and ensure you can see the newly cloned files.
 
