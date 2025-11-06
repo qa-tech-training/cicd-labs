@@ -20,7 +20,7 @@ provider "google" {
 
 resource "google_compute_instance" "awx" {
   name         = "awx"
-  machine_type = "e2-medium"
+  machine_type = "e2-standard-4"
   zone         = "europe-west1-b"
 
   allow_stopping_for_update = true

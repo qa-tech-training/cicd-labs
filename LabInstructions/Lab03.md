@@ -62,10 +62,13 @@ To be able to connect to our machines, AWX will need access to the private SSH k
 1. Navigate to Resources > Inventory and click Add
 2. Name the inventory 'webservers', and associate it to the BOAAWX organization, and save
 
-We will keep things simple with a static inventory for now, but this could be dynamic
+We will keep things simple with a static inventory for now, but this could be dynamic via an inventory source
 3. Click on Hosts
 4. Add a host by clicking add. Enter the IP of one of your servers (NOT the Jenkins or AWX VMs, only the servers created by your pipeline)
-5. Repeat for the other servers
+5. Repeat for the other app servers and the proxy server
+6. Once you have added all your hosts, we need to group them, following the pattern gcp_role_<role>. From the inventory overview, click on Groups > add. Name the new group 'gcp_role_appserver'. 
+7. Click on hosts > add, and select 'add existing host'. Then choose all of the IPs that correspond to your appserver instances
+8. Create another new group called 'gcp_role_proxy'. Repeat the process to add existing hosts, this time selecting the IP of your proxy server.
 
 ### Create a Job Template
 1. Navigate to Resources > Templates, and click add.
@@ -77,6 +80,7 @@ We will keep things simple with a static inventory for now, but this could be dy
     * PROJECT: nginx-updates
     * PLAYBOOK: ansible/playbook.yml
     * CREDENTIALS: ansible_ssh_key
+    * Variables: repository_url: <your repo url>
 3. Save the template configuration, then run the job manually to test connectivity
 
 ### Create a Schedule
